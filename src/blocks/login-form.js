@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 
 import Container from "components/container";
 import Icon from "components/icon";
@@ -13,15 +13,25 @@ import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import app from '../base';
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     
-    const handleSubmit = (evt) => {
-        evt.preventDefault();
-      
-    }
+    const handleSubmit = useCallback(
+        async event => {
+          event.preventDefault();
+          const { Email, Password } = event.target.elements;
+          try {
+            await app
+              .auth()
+              .signInWithEmailAndPassword(Email.value, Password.value);
+          } catch (error) {
+            alert(error);
+          }
+        },
+      );
     return (
         <Container>
             <CssBaseline />

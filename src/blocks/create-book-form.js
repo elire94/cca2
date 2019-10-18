@@ -8,14 +8,25 @@ import Text from "components/form-fields/text";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import Button from "@material-ui/core/Button";
+import app from '../base';
+
+function writeUserData(author, price, image, seller, title){
+    app.database().ref('users/' + seller).set({
+        author : author,
+        price : price,
+        image : image,
+        title});
+}
 
 const CreateBookForm = () => {
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [price, setPrice] = useState(0);
     const [image, setImage] = useState(null);
+   // const { Title, Author, Price,  } = event.target.elements;
     const handleSubmit = (evt) => {
         evt.preventDefault();
+
       
     }
     return (

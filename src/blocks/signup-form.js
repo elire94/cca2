@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useCallback } from "react";
+import { Redirect } from 'react-router-dom';
 import Container from "components/container";
 import Icon from "components/icon";
 import Button from "@material-ui/core/Button";
@@ -12,19 +12,29 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import app from '../base';
+
+function reDirect(){
+    //this.props.history.push('/');
+}
 
 const SignUp = () => {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirm, setPasswordConfirm] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
 
-    const handleSubmit = (evt) => {
+    const handleSubmit = useCallback(async evt => {
         evt.preventDefault();
-      
-    }
+        const { Email, Password } = evt.target.elements;
+        try{
+            await app
+            .auth()
+        .createUserWithEmailAndPassword(Email.value, Password.value);
+        reDirect();
+        }catch(error){
+            alert(error);
+        }});
     return (
         <Container>
             <CssBaseline />
@@ -36,18 +46,6 @@ const SignUp = () => {
 
                 <Form>
                 <form onSubmit={handleSubmit}>
-                    <Text
-                        value={firstName}
-                        onChange={setFirstName}
-                        label="First Name"
-                        name="First Name"
-                    />
-                    <Text
-                        value={lastName}
-                        onChange={setLastName}
-                        label="Last Name"
-                        name="Last Name"
-                    />
                     <Text
                         value={email}
                         onChange={setEmail}
