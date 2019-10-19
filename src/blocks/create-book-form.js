@@ -48,10 +48,12 @@ const CreateBookForm = () => {
                         label="Price"
                         name="Price"
                     />
-                    <input type ='file' 
-                    id ='image'
-                    value={image} 
-                    onChange={setImage} />
+                    <Text
+                        value={image}
+                        onChange={setImage}
+                        label="Image"
+                        name="Image"
+                    />
 
                     <Button
                         type="submit"
