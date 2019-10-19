@@ -10,21 +10,13 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Button from "@material-ui/core/Button";
 import app from '../base';
 
-function writeUserData(author, price, image, seller, title){
-    app.database().ref('users/' + seller).set({
-        author : author,
-        price : price,
-        image : image,
-        title});
-}
-
 const CreateBookForm = () => {
     const [title, setTitle] = useState("");
     const [author, setAuthor] = useState("");
     const [price, setPrice] = useState(0);
     const [image, setImage] = useState(null);
-   // const { Title, Author, Price,  } = event.target.elements;
     const handleSubmit = (evt) => {
+        const { title, author, price, image } = evt.target.elements;
         evt.preventDefault();
 
       
@@ -56,12 +48,10 @@ const CreateBookForm = () => {
                         label="Price"
                         name="Price"
                     />
-                    <Text
-                        value={author}
-                        onChange={setAuthor}
-                        label="Author"
-                        name="Author"
-                    />
+                    <input type ='file' 
+                    id ='image'
+                    value={image} 
+                    onChange={setImage} />
 
                     <Button
                         type="submit"
