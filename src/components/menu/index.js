@@ -2,6 +2,7 @@ import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import app from "../../base";
 
 const Menu = ({ current = "" }) => {
     return (
@@ -10,10 +11,12 @@ const Menu = ({ current = "" }) => {
                 <Tab label="Home" active={current === "Home"} href="/" />
                 <Tab label="My Books" active href="/books" />
                 <Tab label="Sell Book" href="/books/create" />
-                <Tab label="Login" href="login" />
-                <Tab label="Signup" href="signup" />
+                <button onClick={() => app.auth().signOut()}  >Sign out</button>
+
             </Tabs>
+
         </AppBar>
+        
     );
 };
 export default Menu;

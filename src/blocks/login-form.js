@@ -1,4 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
+import { withRouter, Redirect } from "react-router";
+import { AuthContext } from "../auth.js";
 
 import Container from "components/container";
 import Icon from "components/icon";
@@ -15,23 +17,30 @@ import Grid from "@material-ui/core/Grid";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import app from '../base';
 
-const Login = () => {
+const Login = ({ history }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+
     const handleSubmit = useCallback(
         async event => {
-          event.preventDefault();
-          const { Email, Password } = event.target.elements;
-          try {
-            await app
-              .auth()
-              .signInWithEmailAndPassword(Email.value, Password.value);
-          } catch (error) {
-            alert(error);
-          }
+            event.preventDefault();
+            const { Email, Password } = event.target.elements;
+            try {
+                await app
+                    .auth()
+                    .signInWithEmailAndPassword(Email.value, Password.value);
+
+            } catch (error) {
+                alert(error);
+            }
         },
-      );
+    );
+
+    const { currentUser } = useContext(AuthContext);
+
+    if (currentUser) {
+        return <Redirect to="/home" />;
+    }
     return (
         <Container>
             <CssBaseline />
@@ -43,57 +52,57 @@ const Login = () => {
                 <h1>Sign in</h1>
                 <Form>
                     <form onSubmit={handleSubmit}>
-                    <Text
-                        value={email}
-                        onChange={setEmail}
-                        label="Email"
-                        name="Email"
-                    />
-                    <Text
-                        value={password}
-                        onChange={setPassword}
-                        label="Password"
-                        name="Password"
-                        password
-                    />
+                        <Text
+                            value={email}
+                            onChange={setEmail}
+                            label="Email"
+                            name="Email"
+                        />
+                        <Text
+                            value={password}
+                            onChange={setPassword}
+                            label="Password"
+                            name="Password"
+                            password
+                        />
 
-                    
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                    >
-                        Sign In
+
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                        >
+                            Sign In
                     </Button>
-                    <Grid direction="column" container>
-                        <Grid item xs>
-                            <a
-                                href="/forgot-password"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#3f51b5"
-                                }}
-                            >
-                                Forgot Pasword!
+                        <Grid direction="column" container>
+                            <Grid item xs>
+                                <a
+                                    href="/forgot-password"
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "#3f51b5"
+                                    }}
+                                >
+                                    Forgot Pasword!
                             </a>
-                        </Grid>
-                        <Grid item>
-                            <a
-                                href="/signup"
-                                style={{
-                                    textDecoration: "none",
-                                    color: "#3f51b5"
-                                }}
-                            >
-                                Don't have an account? Sign up
+                            </Grid>
+                            <Grid item>
+                                <a
+                                    href="/signup"
+                                    style={{
+                                        textDecoration: "none",
+                                        color: "#3f51b5"
+                                    }}
+                                >
+                                    Don't have an account? Sign up
                             </a>
+                            </Grid>
                         </Grid>
-                    </Grid>
                     </form>
                 </Form>
             </Card>
         </Container>
     );
 };
-export default Login;
+export default withRouter(Login);
