@@ -29,15 +29,18 @@ const Login = ({ history }) => {
                 await app
                     .auth()
                     .signInWithEmailAndPassword(Email.value, Password.value);
+                history.push("/");
 
             } catch (error) {
                 alert(error);
             }
         },
+        [history]
+
     );
 
     const { currentUser } = useContext(AuthContext);
-
+     
     if (currentUser) {
         return <Redirect to="/home" />;
     }
