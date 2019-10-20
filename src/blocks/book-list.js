@@ -12,8 +12,11 @@ import ImageSrc from "assets/mitch.jpg";
 
 
 const BookList = () => {
+    
+     
     const [books, setBooks] = useState([]);
     const { currentUser } = useContext(AuthContext);
+    console.log(currentUser);
     useEffect(async () => {
         const result = await firebase.firestore().collection("books").get();
         const data = [];
@@ -21,7 +24,6 @@ const BookList = () => {
         setBooks(data);
     }, []);
     return (
-
         <Paper
             style={{
                 padding: "16px",
