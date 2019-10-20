@@ -7,13 +7,6 @@ import { withRouter, Redirect } from "react-router";
 
 
 
-/*wrapperFunction = () => {
-    //do something
-    app.auth().signOut();
-    //do something
-   return <Redirect to="/home" />;
-}*/
-
 
 const Menu = ({ current = "" }) => {
     return (
