@@ -3,12 +3,9 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import app from "../../base";
-import { withRouter, Redirect } from "react-router";
 
 function Logout(){
     app.auth().signOut()
-    return <Redirect to='/' />
-
 }
 
 const Menu = ({ current = "" }) => {

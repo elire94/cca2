@@ -1,4 +1,4 @@
-import React, { useState,  useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import Grid from "components/grid/index";
 
@@ -9,35 +9,38 @@ import Books from "../components/bookgrid/getbooks"
 
 
 const BookList = () => {
-    
+var email;
 
     const [books, setBooks] = useState([]);
-    const { currentUser } = useContext(AuthContext);
-    
-    useEffect(async () => {
-        let resultBooks = await firebase.firestore().collection("books");
-        const data = [];
+    firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+             email = user.email;
+             let resultBooks =  firebase.firestore().collection("books");
+             const data = [];
+            
+             let queryBooks = resultBooks.where('seller', '==', email).get()
+     
+                 .then(snapshot => {
+                     if (snapshot.empty) {
+                         console.log('No matching documents.');
+                         return;
+                     }
+     
+                     snapshot.forEach(doc => {
+                         data.push(doc.data());
+                         setBooks(data);
+     
+                     });
+                 })
+                 .catch(err => {
+                     console.log('Error getting documents', err);
+                 });
+        } else {
+            // User is signed out.
+            // ...
+        }
+    });
 
-        let queryBooks = resultBooks.where('seller', '==', 'brendan_judde@hotmail.com').get()
-
-        .then(snapshot => {
-            if (snapshot.empty) {
-              console.log('No matching documents.');
-              return;
-            }  
-        
-            snapshot.forEach(doc => {
-              data.push(doc.data());
-              setBooks(data);
-
-            });
-          })
-          .catch(err => {
-            console.log('Error getting documents', err);
-          });
-
-        
-    }, []);
     return (
         <Paper
             style={{

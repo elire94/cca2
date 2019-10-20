@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { AuthProvider } from "./auth";
+import * as firebase from 'firebase';
 
 import Home from "modules/home/index.js";
 import Login from "modules/login/index.js";
@@ -13,6 +14,7 @@ function App() {
     return (
         <div className="App">
             <AuthProvider>
+                
                 <Router>
                     <Switch>
                         <authrouting exact path="/">
