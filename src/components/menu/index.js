@@ -5,8 +5,11 @@ import Tab from "@material-ui/core/Tab";
 import app from "../../base";
 import { withRouter, Redirect } from "react-router";
 
+function Logout(){
+    app.auth().signOut()
+    return <Redirect to='/' />
 
-
+}
 
 const Menu = ({ current = "" }) => {
     return (
@@ -15,7 +18,7 @@ const Menu = ({ current = "" }) => {
                 <Tab label="Home" active={current === "Home"} href="/" />
                 <Tab label="My Books" active href="/books" />
                 <Tab label="Add a Book" href="/books/create" />
-                <button onClick={() => app.auth().signOut()}  >Sign out</button>
+                <button onClick={(Logout)} >Sign out</button>
             </Tabs>
 
         </AppBar>
