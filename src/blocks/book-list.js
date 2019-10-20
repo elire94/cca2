@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useContext } from "react";
+import React, { useState, useCallback, useContext, useEffect } from "react";
 
 import Grid from "components/grid/index";
 import Image from "components/grid/image";
@@ -7,29 +7,19 @@ import Paper from "@material-ui/core/Paper";
 import { AuthContext } from "../auth.js";
 import * as firebase from 'firebase';
 import app from "../base";
-
+import Books from "../components/bookgrid/getbooks"
 import ImageSrc from "assets/mitch.jpg";
 
 
-const data = [];
 const BookList = () => {
-    var promise = firebase.firestore().collection("books").get();
-    promise.then(snapshot => {
-            snapshot.forEach(doc => {
-                data.push(doc.data());
-            });
-        })
-
-    const books = data.map(book => (
-        <Grid container direction="column" xs={6} md={4}>
-            <Image src={book.image} />
-            <Details title={book.title} author={book.author} price={book.price} />
-        </Grid>
-    ))
+    const [books, setBooks] = useState([]);
     const { currentUser } = useContext(AuthContext);
-    console.log(currentUser);
-    console.log(books);
-
+    useEffect(async () => {
+        const result = await firebase.firestore().collection("books").get();
+        const data = [];
+        result.forEach(doc => data.push(doc.data()));
+        setBooks(data);
+    }, []);
     return (
 
         <Paper
@@ -40,8 +30,7 @@ const BookList = () => {
             }}
         >
             <Grid container spacing={3}>
-                {books}
-
+                <Books data={books}></Books>
             </Grid>
         </Paper>
 
