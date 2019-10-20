@@ -20,6 +20,7 @@ const CreateBookForm = () => {
     const currentUser = useContext(AuthContext);
     var mySon = JSON.stringify(currentUser.currentUser);
     var jsonObj = JSON.parse(mySon);
+    var create = false;
    // var email = jsonObj["email"];
     console.log(jsonObj);
 
@@ -33,15 +34,17 @@ const CreateBookForm = () => {
             price: Price.value,
            seller: Email.value,
             title: Title.value
+            
         }).then(ref =>{
                 console.log('Added the book: ', ref.id);
+                create = true;    
+
             });
 
-        if(addDoc){
-            return <Redirect to="/home" />;
-        }
-      
+     
     }
+
+    
     return (
         <Container>
             <CssBaseline />
@@ -88,6 +91,7 @@ const CreateBookForm = () => {
                         fullWidth
                         variant="contained"
                         color="primary"
+
                     >
                         Create
                     </Button>

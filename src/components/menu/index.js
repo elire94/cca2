@@ -14,7 +14,7 @@ const Menu = ({ current = "" }) => {
             <Tabs variant="fullWidth">
                 <Tab label="Home" active={current === "Home"} href="/" />
                 <Tab label="My Books" active href="/books" />
-                <Tab label="Sell Book" href="/books/create" />
+                <Tab label="Add a Book" href="/books/create" />
                 <button onClick={() => app.auth().signOut()}  >Sign out</button>
             </Tabs>
 
